@@ -3,10 +3,12 @@
 #include <torch/serialize/tensor.h>
 #include <torch/extension.h>
 #include <vector>
-#include <THC/THC.h>
+// #include <THC/THC.h>
+#include <c10/cuda/CUDAStream.h>
+
 #include <ATen/cuda/CUDAContext.h>
 
-extern THCState *state;
+// extern THCState *state;
 
 #define CHECK_CUDA(x) TORCH_CHECK(x.is_cuda(), #x, " must be a CUDAtensor ")
 #define CHECK_CONTIGUOUS(x) TORCH_CHECK(x.is_contiguous(), #x, " must be contiguous ")
@@ -35,8 +37,8 @@ void knn_wrapper(int b, int n, int m, int nsample, at::Tensor xyz_tensor, at::Te
     int *idx = idx_tensor.data_ptr<int>();
     float *dist2 = dist2_tensor.data_ptr<float>();
 
-    cudaStream_t stream = at::cuda::getCurrentCUDAStream();
-
+    // cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+    cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
     knn_kernel_launcher(b, n, m, nsample, xyz, new_xyz, idx, dist2, stream);
 }
 

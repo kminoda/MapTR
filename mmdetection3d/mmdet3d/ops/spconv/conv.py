@@ -223,258 +223,258 @@ class SparseConvolution(SparseModule):
         return out_tensor
 
 
-@CONV_LAYERS.register_module()
-class SparseConv2d(SparseConvolution):
-    def __init__(
-        self,
-        in_channels,
-        out_channels,
-        kernel_size,
-        stride=1,
-        padding=0,
-        dilation=1,
-        groups=1,
-        bias=True,
-        indice_key=None,
-    ):
-        super(SparseConv2d, self).__init__(
-            2,
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride,
-            padding,
-            dilation,
-            groups,
-            bias,
-            indice_key=indice_key,
-        )
+# @CONV_LAYERS.register_module()
+# class SparseConv2d(SparseConvolution):
+#     def __init__(
+#         self,
+#         in_channels,
+#         out_channels,
+#         kernel_size,
+#         stride=1,
+#         padding=0,
+#         dilation=1,
+#         groups=1,
+#         bias=True,
+#         indice_key=None,
+#     ):
+#         super(SparseConv2d, self).__init__(
+#             2,
+#             in_channels,
+#             out_channels,
+#             kernel_size,
+#             stride,
+#             padding,
+#             dilation,
+#             groups,
+#             bias,
+#             indice_key=indice_key,
+#         )
 
 
-@CONV_LAYERS.register_module()
-class SparseConv3d(SparseConvolution):
-    def __init__(
-        self,
-        in_channels,
-        out_channels,
-        kernel_size,
-        stride=1,
-        padding=0,
-        dilation=1,
-        groups=1,
-        bias=True,
-        indice_key=None,
-    ):
-        super(SparseConv3d, self).__init__(
-            3,
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride,
-            padding,
-            dilation,
-            groups,
-            bias,
-            indice_key=indice_key,
-        )
+# @CONV_LAYERS.register_module()
+# class SparseConv3d(SparseConvolution):
+#     def __init__(
+#         self,
+#         in_channels,
+#         out_channels,
+#         kernel_size,
+#         stride=1,
+#         padding=0,
+#         dilation=1,
+#         groups=1,
+#         bias=True,
+#         indice_key=None,
+#     ):
+#         super(SparseConv3d, self).__init__(
+#             3,
+#             in_channels,
+#             out_channels,
+#             kernel_size,
+#             stride,
+#             padding,
+#             dilation,
+#             groups,
+#             bias,
+#             indice_key=indice_key,
+#         )
 
 
-@CONV_LAYERS.register_module()
-class SparseConv4d(SparseConvolution):
-    def __init__(
-        self,
-        in_channels,
-        out_channels,
-        kernel_size,
-        stride=1,
-        padding=0,
-        dilation=1,
-        groups=1,
-        bias=True,
-        indice_key=None,
-    ):
-        super(SparseConv4d, self).__init__(
-            4,
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride,
-            padding,
-            dilation,
-            groups,
-            bias,
-            indice_key=indice_key,
-        )
+# @CONV_LAYERS.register_module()
+# class SparseConv4d(SparseConvolution):
+#     def __init__(
+#         self,
+#         in_channels,
+#         out_channels,
+#         kernel_size,
+#         stride=1,
+#         padding=0,
+#         dilation=1,
+#         groups=1,
+#         bias=True,
+#         indice_key=None,
+#     ):
+#         super(SparseConv4d, self).__init__(
+#             4,
+#             in_channels,
+#             out_channels,
+#             kernel_size,
+#             stride,
+#             padding,
+#             dilation,
+#             groups,
+#             bias,
+#             indice_key=indice_key,
+#         )
 
 
-@CONV_LAYERS.register_module()
-class SparseConvTranspose2d(SparseConvolution):
-    def __init__(
-        self,
-        in_channels,
-        out_channels,
-        kernel_size,
-        stride=1,
-        padding=0,
-        dilation=1,
-        groups=1,
-        bias=True,
-        indice_key=None,
-    ):
-        super(SparseConvTranspose2d, self).__init__(
-            2,
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride,
-            padding,
-            dilation,
-            groups,
-            bias,
-            transposed=True,
-            indice_key=indice_key,
-        )
+# @CONV_LAYERS.register_module()
+# class SparseConvTranspose2d(SparseConvolution):
+#     def __init__(
+#         self,
+#         in_channels,
+#         out_channels,
+#         kernel_size,
+#         stride=1,
+#         padding=0,
+#         dilation=1,
+#         groups=1,
+#         bias=True,
+#         indice_key=None,
+#     ):
+#         super(SparseConvTranspose2d, self).__init__(
+#             2,
+#             in_channels,
+#             out_channels,
+#             kernel_size,
+#             stride,
+#             padding,
+#             dilation,
+#             groups,
+#             bias,
+#             transposed=True,
+#             indice_key=indice_key,
+#         )
 
 
-@CONV_LAYERS.register_module()
-class SparseConvTranspose3d(SparseConvolution):
-    def __init__(
-        self,
-        in_channels,
-        out_channels,
-        kernel_size,
-        stride=1,
-        padding=0,
-        dilation=1,
-        groups=1,
-        bias=True,
-        indice_key=None,
-    ):
-        super(SparseConvTranspose3d, self).__init__(
-            3,
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride,
-            padding,
-            dilation,
-            groups,
-            bias,
-            transposed=True,
-            indice_key=indice_key,
-        )
+# @CONV_LAYERS.register_module()
+# class SparseConvTranspose3d(SparseConvolution):
+#     def __init__(
+#         self,
+#         in_channels,
+#         out_channels,
+#         kernel_size,
+#         stride=1,
+#         padding=0,
+#         dilation=1,
+#         groups=1,
+#         bias=True,
+#         indice_key=None,
+#     ):
+#         super(SparseConvTranspose3d, self).__init__(
+#             3,
+#             in_channels,
+#             out_channels,
+#             kernel_size,
+#             stride,
+#             padding,
+#             dilation,
+#             groups,
+#             bias,
+#             transposed=True,
+#             indice_key=indice_key,
+#         )
 
 
-@CONV_LAYERS.register_module()
-class SparseInverseConv2d(SparseConvolution):
-    def __init__(self, in_channels, out_channels, kernel_size, indice_key, bias=True):
-        super(SparseInverseConv2d, self).__init__(
-            2,
-            in_channels,
-            out_channels,
-            kernel_size,
-            bias=bias,
-            inverse=True,
-            indice_key=indice_key,
-        )
+# @CONV_LAYERS.register_module()
+# class SparseInverseConv2d(SparseConvolution):
+#     def __init__(self, in_channels, out_channels, kernel_size, indice_key, bias=True):
+#         super(SparseInverseConv2d, self).__init__(
+#             2,
+#             in_channels,
+#             out_channels,
+#             kernel_size,
+#             bias=bias,
+#             inverse=True,
+#             indice_key=indice_key,
+#         )
 
 
-@CONV_LAYERS.register_module()
-class SparseInverseConv3d(SparseConvolution):
-    def __init__(self, in_channels, out_channels, kernel_size, indice_key, bias=True):
-        super(SparseInverseConv3d, self).__init__(
-            3,
-            in_channels,
-            out_channels,
-            kernel_size,
-            bias=bias,
-            inverse=True,
-            indice_key=indice_key,
-        )
+# @CONV_LAYERS.register_module()
+# class SparseInverseConv3d(SparseConvolution):
+#     def __init__(self, in_channels, out_channels, kernel_size, indice_key, bias=True):
+#         super(SparseInverseConv3d, self).__init__(
+#             3,
+#             in_channels,
+#             out_channels,
+#             kernel_size,
+#             bias=bias,
+#             inverse=True,
+#             indice_key=indice_key,
+#         )
 
 
-@CONV_LAYERS.register_module()
-class SubMConv2d(SparseConvolution):
-    def __init__(
-        self,
-        in_channels,
-        out_channels,
-        kernel_size,
-        stride=1,
-        padding=0,
-        dilation=1,
-        groups=1,
-        bias=True,
-        indice_key=None,
-    ):
-        super(SubMConv2d, self).__init__(
-            2,
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride,
-            padding,
-            dilation,
-            groups,
-            bias,
-            True,
-            indice_key=indice_key,
-        )
+# @CONV_LAYERS.register_module()
+# class SubMConv2d(SparseConvolution):
+#     def __init__(
+#         self,
+#         in_channels,
+#         out_channels,
+#         kernel_size,
+#         stride=1,
+#         padding=0,
+#         dilation=1,
+#         groups=1,
+#         bias=True,
+#         indice_key=None,
+#     ):
+#         super(SubMConv2d, self).__init__(
+#             2,
+#             in_channels,
+#             out_channels,
+#             kernel_size,
+#             stride,
+#             padding,
+#             dilation,
+#             groups,
+#             bias,
+#             True,
+#             indice_key=indice_key,
+#         )
 
 
-@CONV_LAYERS.register_module()
-class SubMConv3d(SparseConvolution):
-    def __init__(
-        self,
-        in_channels,
-        out_channels,
-        kernel_size,
-        stride=1,
-        padding=0,
-        dilation=1,
-        groups=1,
-        bias=True,
-        indice_key=None,
-    ):
-        super(SubMConv3d, self).__init__(
-            3,
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride,
-            padding,
-            dilation,
-            groups,
-            bias,
-            True,
-            indice_key=indice_key,
-        )
+# @CONV_LAYERS.register_module()
+# class SubMConv3d(SparseConvolution):
+#     def __init__(
+#         self,
+#         in_channels,
+#         out_channels,
+#         kernel_size,
+#         stride=1,
+#         padding=0,
+#         dilation=1,
+#         groups=1,
+#         bias=True,
+#         indice_key=None,
+#     ):
+#         super(SubMConv3d, self).__init__(
+#             3,
+#             in_channels,
+#             out_channels,
+#             kernel_size,
+#             stride,
+#             padding,
+#             dilation,
+#             groups,
+#             bias,
+#             True,
+#             indice_key=indice_key,
+#         )
 
 
-@CONV_LAYERS.register_module()
-class SubMConv4d(SparseConvolution):
-    def __init__(
-        self,
-        in_channels,
-        out_channels,
-        kernel_size,
-        stride=1,
-        padding=0,
-        dilation=1,
-        groups=1,
-        bias=True,
-        indice_key=None,
-    ):
-        super(SubMConv4d, self).__init__(
-            4,
-            in_channels,
-            out_channels,
-            kernel_size,
-            stride,
-            padding,
-            dilation,
-            groups,
-            bias,
-            True,
-            indice_key=indice_key,
-        )
+# @CONV_LAYERS.register_module()
+# class SubMConv4d(SparseConvolution):
+#     def __init__(
+#         self,
+#         in_channels,
+#         out_channels,
+#         kernel_size,
+#         stride=1,
+#         padding=0,
+#         dilation=1,
+#         groups=1,
+#         bias=True,
+#         indice_key=None,
+#     ):
+#         super(SubMConv4d, self).__init__(
+#             4,
+#             in_channels,
+#             out_channels,
+#             kernel_size,
+#             stride,
+#             padding,
+#             dilation,
+#             groups,
+#             bias,
+#             True,
+#             indice_key=indice_key,
+#         )

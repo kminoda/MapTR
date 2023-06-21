@@ -10,4 +10,4 @@ from .models.utils import *
 from .models.opt.adamw import AdamW2
 from .bevformer import *
 from .maptr import *
-from .models.backbones.efficientnet import EfficientNet
+# from .models.backbones.efficientnet import EfficientNet

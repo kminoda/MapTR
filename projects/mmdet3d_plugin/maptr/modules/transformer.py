@@ -129,6 +129,8 @@ class MapTRPerceptionTransformer(BaseModule):
         bev_pos = bev_pos.flatten(2).permute(2, 0, 1)
 
         # obtain rotation angle and shift with ego motion
+        # for each in kwargs['img_metas']:
+        #     print('KOJI!!! ', each)
         delta_x = np.array([each['can_bus'][0]
                            for each in kwargs['img_metas']])
         delta_y = np.array([each['can_bus'][1]

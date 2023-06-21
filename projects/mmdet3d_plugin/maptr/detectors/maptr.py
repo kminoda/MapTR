@@ -308,6 +308,10 @@ class MapTR(MVXTwoStageDetector):
             img_metas[0][0]['can_bus'][-1] = 0
             img_metas[0][0]['can_bus'][:3] = 0
 
+        ###### KOJI
+        img_metas = [[img_metas[0][0]]]
+        ######
+
         new_prev_bev, bbox_results = self.simple_test(
             img_metas[0], img[0], points[0], prev_bev=self.prev_frame_info['prev_bev'], **kwargs)
         # During inference, we save the BEV features and ego motion of each timestamp.

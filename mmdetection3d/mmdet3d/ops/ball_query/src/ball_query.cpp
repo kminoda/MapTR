@@ -1,7 +1,9 @@
 // Modified from
 // https://github.com/sshaoshuai/Pointnet2.PyTorch/tree/master/pointnet2/src/ball_query.cpp
 
-#include <THC/THC.h>
+// #include <THC/THC.h>
+#include <c10/cuda/CUDAStream.h>
+
 #include <cuda.h>
 #include <cuda_runtime_api.h>
 #include <torch/extension.h>
@@ -9,7 +11,7 @@
 
 #include <vector>
 
-extern THCState *state;
+// extern THCState *state;
 
 #define CHECK_CUDA(x) \
   TORCH_CHECK(x.type().is_cuda(), #x, " must be a CUDAtensor ")
@@ -36,7 +38,8 @@ int ball_query_wrapper(int b, int n, int m, float min_radius, float max_radius, 
   const float *xyz = xyz_tensor.data_ptr<float>();
   int *idx = idx_tensor.data_ptr<int>();
 
-  cudaStream_t stream = at::cuda::getCurrentCUDAStream().stream();
+  // cudaStream_t stream = at::cuda::getCurrentCUDAStream().stream();
+  cudaStream_t stream = c10::cuda::getCurrentCUDAStream().stream();
   ball_query_kernel_launcher(b, n, m, min_radius, max_radius,
                              nsample, new_xyz, xyz, idx, stream);
   return 1;

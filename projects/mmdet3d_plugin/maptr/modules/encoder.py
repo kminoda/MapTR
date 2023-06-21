@@ -268,7 +268,6 @@ class BaseTransform(BaseModule):
         #     mylidar2img,
         #     img_metas,
         # )
-
         geom = self.get_geometry_v1(
             fH,
             fW,

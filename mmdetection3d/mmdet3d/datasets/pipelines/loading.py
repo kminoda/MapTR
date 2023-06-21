@@ -531,6 +531,7 @@ class LoadAnnotations3D(LoadAnnotations):
             dict: The dict containing loaded 3D bounding box annotations.
         """
         results['gt_bboxes_3d'] = results['ann_info']['gt_bboxes_3d']
+
         results['bbox3d_fields'].append('gt_bboxes_3d')
         return results
 
@@ -650,6 +651,10 @@ class LoadAnnotations3D(LoadAnnotations):
             results = self._load_masks_3d(results)
         if self.with_seg_3d:
             results = self._load_semantic_seg_3d(results)
+        # print("KOJI!!!!458349583: ", results.keys())
+        # print("KOJI!!!!!543q5834: ", results['gt_bboxes_3d'])
+        # print("KOJI!!!!!3415897: ", results['gt_labels_3d'])
+
         return results
 
     def __repr__(self):

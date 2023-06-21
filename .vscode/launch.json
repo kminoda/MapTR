@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: My MapTR debugging",
+            "type": "python",
+            "request": "launch",
+            "program": "/root/map_tr/tools/maptr/vis_pred.py",
+            // "args": ["./projects/configs/maptr/tier4_maptr_tiny_r50_24e.py", "./work_dirs/tier4_maptr_tiny_r50_24e/latest.pth"],
+            "args": ["./projects/configs/maptr/maptr_tiny_r50_24e.py", "./ckpts/maptr_ws/weights/maptr_tiny_r50_24e.pth"],
+            "cwd": "/root/map_tr",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        }
+    ]
+}

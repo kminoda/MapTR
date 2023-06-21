@@ -1,3 +1,9 @@
+# #### KOJI
+# import sys
+# sys.path.append('/root/map_tr')
+# #########
+
+
 import argparse
 import mmcv
 import os
@@ -7,6 +13,7 @@ import warnings
 from mmcv import Config, DictAction
 from mmcv.cnn import fuse_conv_bn
 from mmcv.parallel import MMDataParallel, MMDistributedDataParallel
+from mmcv.parallel import DataContainer as DC
 from mmcv.runner import (get_dist_info, init_dist, load_checkpoint,
                          wrap_fp16_model)
 from mmdet3d.utils import collect_env, get_root_logger
@@ -26,8 +33,10 @@ from matplotlib import transforms
 from matplotlib.patches import Rectangle
 import cv2
 
-CAMS = ['CAM_FRONT_LEFT','CAM_FRONT','CAM_FRONT_RIGHT',
-             'CAM_BACK_LEFT','CAM_BACK','CAM_BACK_RIGHT',]
+# CAMS = ['CAM_FRONT_LEFT','CAM_FRONT','CAM_FRONT_RIGHT',
+#              'CAM_BACK_LEFT','CAM_BACK','CAM_BACK_RIGHT',]
+CAMS = ['camera2','camera0','camera4',
+             'camera3','camera1','camera5',]
 # we choose these samples not because it is easy but because it is hard
 CANDIDATE=['n008-2018-08-01-15-16-36-0400_1533151184047036',
            'n008-2018-08-01-15-16-36-0400_1533151200646853',
@@ -72,6 +81,12 @@ def parse_args():
     parser = argparse.ArgumentParser(description='vis hdmaptr map gt label')
     parser.add_argument('config', help='test config file path')
     parser.add_argument('checkpoint', help='checkpoint file')
+
+    # parser.add_argument('--config', default='./projects/configs/maptr/maptr_tiny_r50_24e.py')
+    # parser.add_argument('--checkpoint', default='./ckpts/maptr_ws/weights/maptr_tiny_r50_24e.pth')
+    # parser.add_argument('--config', default='./projects/configs/maptr/tier4_maptr_tiny_r50_24e.py')
+    # parser.add_argument('--checkpoint', default='./work_dirs/tier4_maptr_tiny_r50_24e/latest.pth')
+
     parser.add_argument('--score-thresh', default=0.4, type=float, help='samples to visualize')
     parser.add_argument(
         '--show-dir', help='directory where visualizations will be saved')
@@ -214,13 +229,22 @@ def main():
     prog_bar = mmcv.ProgressBar(len(dataset))
     # import pdb;pdb.set_trace()
     for i, data in enumerate(data_loader):
+        ###############
+        # Fot TIER IV dataset
+        is_tier4_dataset = isinstance(data['gt_labels_3d'], list)
+        if is_tier4_dataset:
+            data['gt_labels_3d'] = data['gt_labels_3d'][0]
+            data['gt_bboxes_3d'] = data['gt_bboxes_3d'][0]
+            data['img'] = [DC([data['img'].data[0][0]])]
+            data['img_metas'] = [DC([[data['img_metas'].data[0][0][0]]], cpu_only=True)]
+        ###############
+
         if ~(data['gt_labels_3d'].data[0][0] != -1).any():
             # import pdb;pdb.set_trace()
             logger.error(f'\n empty gt for index {i}, continue')
             # prog_bar.update()  
             continue
-       
-        
+
         img = data['img'][0].data[0]
         img_metas = data['img_metas'][0].data[0]
         gt_bboxes_3d = data['gt_bboxes_3d'].data[0]
@@ -233,6 +257,12 @@ def main():
         # if pts_filename not in CANDIDATE:
         #     continue
 
+        # print(data['img_metas'])
+
+        # print(img_metas[0].keys())
+        # print(gt_bboxes_3d)
+        # print(gt_labels_3d)
+
         with torch.no_grad():
             result = model(return_loss=False, rescale=True, **data)
         sample_dir = osp.join(args.show_dir, pts_filename)
@@ -244,31 +274,42 @@ def main():
         for filepath in filename_list:
             filename = osp.basename(filepath)
             filename_splits = filename.split('__')
-            # sample_dir = filename_splits[0]
-            # sample_dir = osp.join(args.show_dir, sample_dir)
-            # mmcv.mkdir_or_exist(osp.abspath(sample_dir))
-            img_name = filename_splits[1] + '.jpg'
-            img_path = osp.join(sample_dir,img_name)
-            # img_path_list.append(img_path)
-            shutil.copyfile(filepath,img_path)
-            img_path_dict[filename_splits[1]] = img_path
+
+            ###############
+            # Fot TIER IV dataset
+            if is_tier4_dataset:
+                img_name = filename
+                img_path = osp.join(sample_dir, img_name)
+                shutil.copyfile(filepath, img_path)
+                camera_name = img_name.split('_')[1].split('.')[0]
+                img_path_dict[camera_name] = img_path
+            else:
+                img_name = filename_splits[1] + '.jpg'
+                img_path = osp.join(sample_dir,img_name)
+                shutil.copyfile(filepath,img_path)
+                img_path_dict[filename_splits[1]] = img_path
+            ###############
          
         # surrounding view
         row_1_list = []
         for cam in CAMS[:3]:
-            cam_img_name = cam + '.jpg'
-            cam_img = cv2.imread(osp.join(sample_dir, cam_img_name))
+            # cam_img_name = cam + '.jpg'
+            # cam_img = cv2.imread(osp.join(sample_dir, cam_img_name))
+            cam_img_path = img_path_dict[cam]
+            cam_img = cv2.imread(cam_img_path)
             row_1_list.append(cam_img)
         row_2_list = []
         for cam in CAMS[3:]:
-            cam_img_name = cam + '.jpg'
-            cam_img = cv2.imread(osp.join(sample_dir, cam_img_name))
+            # cam_img_name = cam + '.jpg'
+            # cam_img = cv2.imread(osp.join(sample_dir, cam_img_name))
+            cam_img_path = img_path_dict[cam]
+            cam_img = cv2.imread(cam_img_path)
             row_2_list.append(cam_img)
         row_1_img=cv2.hconcat(row_1_list)
         row_2_img=cv2.hconcat(row_2_list)
         cams_img = cv2.vconcat([row_1_img,row_2_img])
         cams_img_path = osp.join(sample_dir,'surroud_view.jpg')
-        cv2.imwrite(cams_img_path, cams_img,[cv2.IMWRITE_JPEG_QUALITY, 70])
+        cv2.imwrite(cams_img_path, cams_img, [cv2.IMWRITE_JPEG_QUALITY, 70])
         
         for vis_format in args.gt_format:
             if vis_format == 'se_pts':
