@@ -242,13 +242,13 @@ file_client_args = dict(backend='disk')
 
 train_pipeline = [
     dict(type='LoadMultiViewImageFromFiles', to_float32=True),
-    dict(type='PhotoMetricDistortionMultiViewImage'),
+    dict(type='Augmentation'),
+    # dict(type='PhotoMetricDistortionMultiViewImage'),
     dict(
         type='VectorizeLanelet2Map',
-        lanelet2_map_path='/mount_hdd/data/maps/odaiba-new/lanelet2_map.osm',
         roi_size=roi_size,
         line_type_mapping=line_type_mapping,
-        dataroot='./data/tier4_vectormap_dataset/small_data',
+        dataroot='./data/tier4_vectormap_dataset/all_data',
         class2label=class2label,
     ),
     dict(type='NormalizeMultiviewImage', **img_norm_cfg),
@@ -261,7 +261,6 @@ test_pipeline = [
     dict(type='LoadMultiViewImageFromFiles', to_float32=True),
     dict(
         type='VectorizeLanelet2Map',
-        lanelet2_map_path='/mount_hdd/data/maps/odaiba-new/lanelet2_map.osm',
         roi_size=roi_size,
         line_type_mapping=line_type_mapping,
         dataroot='./data/tier4_vectormap_dataset/valid_data',
@@ -274,7 +273,7 @@ test_pipeline = [
         pts_scale_ratio=1,
         flip=False,
         transforms=[
-            dict(type='RandomScaleImageMultiViewImage', scales=[0.5]),
+            # dict(type='RandomScaleImageMultiViewImage', scales=[0.5]),
             dict(type='PadMultiViewImage', size_divisor=32),
             # dict(
             #     type='DefaultFormatBundle3D',
@@ -364,7 +363,7 @@ lr_config = dict(
     warmup_iters=500,
     warmup_ratio=1.0 / 3,
     min_lr_ratio=1e-3)
-total_epochs = 24
+total_epochs = 220
 # total_epochs = 50
 # evaluation = dict(interval=1, pipeline=test_pipeline)
 evaluation = dict(interval=2, pipeline=test_pipeline, metric='chamfer')
@@ -378,4 +377,4 @@ log_config = dict(
         dict(type='TensorboardLoggerHook')
     ])
 fp16 = dict(loss_scale=512.)
-checkpoint_config = dict(interval=1)
+checkpoint_config = dict(interval=5)

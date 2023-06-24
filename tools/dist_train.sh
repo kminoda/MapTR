@@ -2,8 +2,9 @@
 
 CONFIG=$1
 GPUS=$2
+WORK_DIR=$3
 PORT=${PORT:-28509}
 
 PYTHONPATH="$(dirname $0)/..":$PYTHONPATH \
 python3 -m torch.distributed.launch --nproc_per_node=$GPUS --master_port=$PORT \
-    $(dirname "$0")/train.py $CONFIG --launcher pytorch ${@:3} --deterministic # --resume-from ./ckpts/maptr_ws/weights/maptr_tiny_r50_24e.pth
+    $(dirname "$0")/train.py $CONFIG --work-dir $WORK_DIR --launcher pytorch ${@:5} --deterministic --resume-from ./ckpts/maptr_ws/weights/maptr_tiny_r50_110e.pth

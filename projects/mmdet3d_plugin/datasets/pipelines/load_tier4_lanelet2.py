@@ -89,7 +89,9 @@ class VectorizeLanelet2Map(object):
         gt_instance = []
         for label, polylines_3d in vectors_dict_3d.items():
             for polyline_3d in polylines_3d:
-                polyline_shapely_2d = LineString(polyline_3d[:, [1, 0]])
+                polyline_2d = polyline_3d[:, [1, 0]]
+                polyline_2d[:, 0] *= -1
+                polyline_shapely_2d = LineString(polyline_2d)
                 gt_instance.append(polyline_shapely_2d)
                 gt_labels.append(label)
         gt_instance = LiDARInstanceLines(

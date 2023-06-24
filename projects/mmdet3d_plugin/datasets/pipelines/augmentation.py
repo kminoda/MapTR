@@ -26,7 +26,7 @@ class Augmentation(object):
                 max_h_size=64,
                 max_w_size=64,
                 fill_value=0,
-                p=0.5
+                p=1.0
             ),
             A.RandomFog(
                 fog_coef_upper=0.5,
@@ -40,12 +40,14 @@ class Augmentation(object):
         ])
 
     def __call__(self, input_dict: dict) -> dict:
+        input_dict['img'] = np.array([img.astype(np.uint8) for img in input_dict['img']])
         input_dict['img'] = np.array([self.transform(image=img)['image'] for img in input_dict['img']])
-        input_dict = self.rotate_bev(input_dict, angle_lim=np.pi/8, p=0.5)
-        input_dict = self.translate_bev(input_dict, trans_lim=10.0, p=1.0)
-        input_dict = self.affine_camera(input_dict, p_angle = 1.0, p_scale = 0.5)
-        input_dict = self.random_drop(input_dict, p=0.5)
-        input_dict = self.shuffle_image(input_dict, p=1.0)
+
+        # input_dict = self.rotate_bev(input_dict, angle_lim=np.pi/8, p=0.5)
+        # input_dict = self.translate_bev(input_dict, trans_lim=10.0, p=1.0)
+        # input_dict = self.affine_camera(input_dict, p_angle = 1.0, p_scale = 0.5)
+        # input_dict = self.random_drop(input_dict, p=0.5)
+        # input_dict = self.shuffle_image(input_dict, p=1.0)
         return input_dict
 
     def rotate_bev(self, input_dict: dict, angle_lim: float = np.pi / 16, p = 1.0) -> dict:

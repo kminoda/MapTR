@@ -1,7 +1,7 @@
-# #### KOJI
-# import sys
-# sys.path.append('/root/map_tr')
-# #########
+#### KOJI
+import sys
+sys.path.append('/root/map_tr')
+#########
 
 
 import argparse
@@ -95,7 +95,7 @@ def parse_args():
         '--gt-format',
         type=str,
         nargs='+',
-        default=['fixed_num_pts',],
+        default=['polyline_pts',],
         help='vis format, default should be "points",'
         'support ["se_pts","bbox","fixed_num_pts","polyline_pts"]')
     args = parser.parse_args()
@@ -117,7 +117,7 @@ def main():
 
                 for m in _module_dir[1:]:
                     _module_path = _module_path + '.' + m
-                print(_module_path)
+                print("IMPORT!!!!!: ", _module_path)
                 plg_lib = importlib.import_module(_module_path)
             else:
                 # import dir is the dirpath for the config file
@@ -126,7 +126,7 @@ def main():
                 _module_path = _module_dir[0]
                 for m in _module_dir[1:]:
                     _module_path = _module_path + '.' + m
-                print(_module_path)
+                print("IMPORT!!!!!: ", _module_path)
                 plg_lib = importlib.import_module(_module_path)
 
     # set cudnn_benchmark
@@ -380,7 +380,6 @@ def main():
             else: 
                 logger.error(f'WRONG visformat for GT: {vis_format}')
                 raise ValueError(f'WRONG visformat for GT: {vis_format}')
-
 
         # import pdb;pdb.set_trace()
         plt.figure(figsize=(2, 4))

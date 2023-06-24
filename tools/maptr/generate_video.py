@@ -4,8 +4,11 @@ import os
 import glob
 import cv2
 import mmcv
-CAMS = ['FRONT_LEFT','FRONT','FRONT_RIGHT',
-             'BACK_LEFT','BACK','BACK_RIGHT',]
+
+# CAMS = ['CAM_FRONT_LEFT','CAM_FRONT','CAM_FRONT_RIGHT',
+#              'CAM_BACK_LEFT','CAM_BACK','CAM_BACK_RIGHT',]
+CAMS = ['camera2','camera0','camera4',
+             'camera3','camera1','camera5',]
 GT_MAP_NAME = 'GT_fixednum_pts_MAP.png'
 PRED_MAP_NAME = 'PRED_MAP_plot.png'
 
